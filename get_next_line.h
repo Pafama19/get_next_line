@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:41:17 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/18 18:59:11 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/19 12:55:47 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
+char	*ft_strchr(const char *str, int c);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_extract_line(char *store);
 
 #endif
