@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:40:06 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/19 12:59:45 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/21 17:20:24 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	size_t	pos;
 
 	pos = 0;
+	if (s == NULL)
+		return (0);
 	while (s[pos] != '\0')
 		pos++;
 	return (pos);
@@ -28,6 +30,8 @@ char	*ft_strchr(const char *str, int c)
 	const char	*aux;
 
 	pos = 0;
+	if (str == NULL)
+		return (NULL);
 	while (str[pos] != '\0')
 	{
 		if (str[pos] == (char)c)
@@ -76,6 +80,10 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	size_t	len_s2;
 
 	pos = 0;
+	if (!s1)
+	{
+		return (s2);
+	}
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	dest = malloc(len_s1 + len_s2 + 1);
@@ -89,23 +97,4 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	dest[pos] = '\0';
 	ft_strlcat(dest, s2, len_s1 + len_s2 + 1);
 	return (dest);
-}
-
-char	*ft_extract_line(char *store)
-{
-	char	*printline;
-	int		pos;
-
-	pos = 0;
-	while (store[pos])
-	{
-		if (store[pos] != '\n')
-		{
-			printline[pos] = store[pos];
-			pos++;
-		}
-		else
-			return (printline);
-	}
-	return (NULL);
 }
