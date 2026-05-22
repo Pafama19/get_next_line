@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:06:57 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/21 17:05:01 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/22 12:30:00 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	*ft_get_excess(char *str)
 
 	if (!str)
 		return (NULL);
-	len = ft_strlen(str + 1);
+	len = ft_strlen(str);
 	pos = 0;
-	excess = malloc(sizeof(char) * (len + 1));
+	excess = malloc(sizeof(char) * (len));
 	if (!excess)
 		return (NULL);
 	while (str[pos + 1])
@@ -51,7 +51,7 @@ char	*ft_extract_line(char *store)
 	char	*line;
 	int		len;
 
-	pos = 0;
+	pos = -1;
 	len = 0;
 	if (store == NULL)
 		return (NULL);
@@ -60,7 +60,7 @@ char	*ft_extract_line(char *store)
 	line = malloc(sizeof(char) * (len + 2));
 	if (!line)
 		return (NULL);
-	while (store[pos])
+	while (store[++pos])
 	{
 		if (store[pos] == '\n')
 		{
@@ -69,9 +69,9 @@ char	*ft_extract_line(char *store)
 			return (line);
 		}
 		line[pos] = store[pos];
-		pos++;
 	}
-	return (NULL);
+	line[pos] = '\0';
+	return (line);
 }
 
 char	*ft_end(char	**store)
@@ -87,12 +87,12 @@ char	*get_next_line(int fd)
 {
 	static char	*store;
 	char		*buffer;
-	char		*line;
 	char		*excess;
+	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	while (ft_read_line(buffer, fd) > 0)
@@ -104,10 +104,10 @@ char	*get_next_line(int fd)
 			excess = ft_get_excess(ft_strchr(store, '\n'));
 			free (store);
 			store = excess;
+			free (buffer);
 			return (line);
 		}
 	}
 	free (buffer);
-	line = ft_end(&store);
-	return (line);
+	return (ft_end(&store));
 }

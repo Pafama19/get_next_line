@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:40:06 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/22 09:13:00 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/22 11:55:58 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*ft_reserve_mem(const char *s1, const char *s2)
 
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
-	dest = malloc(len_s1 + len_s2 + 1);
+	dest = malloc(sizeof (char) * (len_s1 + len_s2 + 1));
 	if (!dest)
 		return (NULL);
 	return (dest);
@@ -95,11 +95,12 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	dest = ft_reserve_mem(s1, s2);
 	if (!s1)
 	{
-		while (s2)
+		while (s2[pos])
 		{
 			dest[pos] = s2[pos];
 			pos++;
 		}
+		dest[pos] = '\0';
 		return (dest);
 	}
 	while (s1[pos])
@@ -109,5 +110,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	dest[pos] = '\0';
 	ft_strlcat(dest, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
+	free((char *)s1);
 	return (dest);
 }
