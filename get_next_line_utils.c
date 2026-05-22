@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:40:06 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/21 17:20:24 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/22 09:13:00 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,29 +72,42 @@ size_t	ft_strlcat(char *dest, const char *source, size_t dest_size)
 	return (dest_len + source_len);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_reserve_mem(const char *s1, const char *s2)
 {
 	char	*dest;
-	size_t	pos;
 	size_t	len_s1;
 	size_t	len_s2;
 
-	pos = 0;
-	if (!s1)
-	{
-		return (s2);
-	}
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	dest = malloc(len_s1 + len_s2 + 1);
 	if (!dest)
 		return (NULL);
+	return (dest);
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	char	*dest;
+	size_t	pos;
+
+	pos = 0;
+	dest = ft_reserve_mem(s1, s2);
+	if (!s1)
+	{
+		while (s2)
+		{
+			dest[pos] = s2[pos];
+			pos++;
+		}
+		return (dest);
+	}
 	while (s1[pos])
 	{
 		dest[pos] = s1[pos];
 		pos++;
 	}
 	dest[pos] = '\0';
-	ft_strlcat(dest, s2, len_s1 + len_s2 + 1);
+	ft_strlcat(dest, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
 	return (dest);
 }
