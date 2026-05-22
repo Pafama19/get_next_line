@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:06:57 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/22 12:30:00 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/22 17:56:57 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*ft_get_excess(char *str)
 		return (NULL);
 	len = ft_strlen(str);
 	pos = 0;
+	if (len == 0)
+		return (NULL);
 	excess = malloc(sizeof(char) * (len));
 	if (!excess)
 		return (NULL);
@@ -74,20 +76,27 @@ char	*ft_extract_line(char *store)
 	return (line);
 }
 
-char	*ft_end(char	**store)
+char	*ft_make_line(char *store, char *buffer)
 {
 	char	*line;
+	char	*excess;
 
-	line = *store;
-	*store = NULL;
+	if (ft_strchr(store, '\n'))
+	{
+		line = ft_extract_line(store);
+		excess = ft_get_excess(ft_strchr(store, '\n'));
+		free (store);
+		store = excess;
+		free (buffer);
+	}
 	return (line);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*store;
 	char		*buffer;
-	char		*excess;
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
@@ -98,16 +107,14 @@ char	*get_next_line(int fd)
 	while (ft_read_line(buffer, fd) > 0)
 	{
 		store = ft_strjoin(store, buffer);
-		if ((store != NULL) && ft_strchr(store, '\n'))
+		if ((store != NULL))
 		{
-			line = ft_extract_line(store);
-			excess = ft_get_excess(ft_strchr(store, '\n'));
-			free (store);
-			store = excess;
-			free (buffer);
+			line = ft_make_line(store, buffer);
 			return (line);
 		}
 	}
+	line = *store;
+	*store = NULL;
 	free (buffer);
 	return (ft_end(&store));
 }
