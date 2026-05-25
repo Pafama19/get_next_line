@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:06:57 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/22 17:56:57 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/25 23:29:00 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_read_line(char *buffer, int fd)
 
 	bytes = read(fd, buffer, BUFFER_SIZE);
 	if (bytes <= 0)
-		return (0);
+		return (bytes);
 	buffer[bytes] = '\0';
 	return (bytes);
 }
@@ -33,7 +33,7 @@ char	*ft_get_excess(char *str)
 		return (NULL);
 	len = ft_strlen(str);
 	pos = 0;
-	if (len == 0)
+	if (len == 1)
 		return (NULL);
 	excess = malloc(sizeof(char) * (len));
 	if (!excess)
@@ -55,66 +55,60 @@ char	*ft_extract_line(char *store)
 
 	pos = -1;
 	len = 0;
-	if (store == NULL)
+	if (!store || !store[0])
 		return (NULL);
 	while (store[len] && store[len] != '\n')
 		len++;
 	line = malloc(sizeof(char) * (len + 2));
 	if (!line)
 		return (NULL);
-	while (store[++pos])
-	{
-		if (store[pos] == '\n')
-		{
-			line[pos] = '\n';
-			line[pos + 1] = '\0';
-			return (line);
-		}
+	while (++pos <= len)
 		line[pos] = store[pos];
-	}
-	line[pos] = '\0';
+	if (store[pos] == '\n')
+		line[pos] = '\n';
+	line[pos++] = '\0';
 	return (line);
 }
 
-char	*ft_make_line(char *store, char *buffer)
+
+char	*ft_make_line(char **store)
 {
-	char	*line;
+	char	*new_line;
 	char	*excess;
 
-	if (ft_strchr(store, '\n'))
-	{
-		line = ft_extract_line(store);
-		excess = ft_get_excess(ft_strchr(store, '\n'));
-		free (store);
-		store = excess;
-		free (buffer);
-	}
-	return (line);
-	return (NULL);
+	if (!*store || !store)
+		return (NULL);
+	new_line = ft_extract_line(*store);
+	excess = ft_get_excess(ft_strchr(*store, '\n'));
+	free (*store);
+	*store = excess;
+	return (new_line);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*store;
 	char		*buffer;
-	char		*line;
+	char		*tmp;
+	int			bytes;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	while (ft_read_line(buffer, fd) > 0)
+	bytes = ft_read_line(buffer, fd);
+	while (bytes > 0)
 	{
-		store = ft_strjoin(store, buffer);
-		if ((store != NULL))
+		tmp = ft_strjoin(store, buffer);
+		free (store);
+		store = tmp;
+		if (ft_strchr(store, '\n'))
 		{
-			line = ft_make_line(store, buffer);
-			return (line);
+			free (buffer);
+			return (ft_make_line(&store));
 		}
+		bytes = ft_read_line(buffer, fd);
 	}
-	line = *store;
-	*store = NULL;
-	free (buffer);
-	return (ft_end(&store));
+	return (ft_error_eof(&store, buffer, bytes));
 }

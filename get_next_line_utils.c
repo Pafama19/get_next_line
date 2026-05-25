@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:40:06 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/22 16:59:29 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/25 23:28:06 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,67 +49,53 @@ char	*ft_strchr(const char *str, int c)
 	return (NULL);
 }
 
-size_t	ft_strlcat(char *dest, const char *source, size_t dest_size)
-{
-	size_t	pos;
-	size_t	dest_len;
-	size_t	source_len;
-
-	pos = 0;
-	dest_len = ft_strlen(dest);
-	source_len = ft_strlen(source);
-	if (dest_size <= dest_len)
-	{
-		dest_len = dest_size;
-		return (dest_size + source_len);
-	}
-	while ((source[pos] != '\0') && (dest_len + pos < dest_size - 1))
-	{
-		dest[dest_len + pos] = source[pos];
-		pos++;
-	}
-	dest[dest_len + pos] = '\0';
-	return (dest_len + source_len);
-}
-
-char	*ft_reserve_mem(const char *s1, const char *s2)
-{
-	char	*dest;
-	size_t	len_s1;
-	size_t	len_s2;
-
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	dest = malloc(sizeof (char) * (len_s1 + len_s2 + 1));
-	if (!dest)
-		return (NULL);
-	return (dest);
-}
-
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*dest;
-	size_t	pos;
+	int		i;
+	int		j;
+	int		k;
 
-	pos = 0;
-	dest = ft_reserve_mem(s1, s2);
-	if (!s1)
+	i = 0;
+	j = 0;
+	k = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	dest = malloc(sizeof (char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!dest)
+		return (NULL);
+	if (s1)
 	{
-		while (s2[pos])
-		{
-			dest[pos] = s2[pos];
-			pos++;
-		}
-		dest[pos] = '\0';
-		return (dest);
+		while (s1[j])
+			dest[i++] = s1[j++];
 	}
-	while (s1[pos])
+	if (s2)
 	{
-		dest[pos] = s1[pos];
-		pos++;
+		while (s2[k])
+			dest[i++] = s2[k++];
 	}
-	dest[pos] = '\0';
-	ft_strlcat(dest, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
-	free((char *)s1);
+	dest[i] = '\0';
 	return (dest);
+}
+
+char	*ft_error_eof(char **store, char *buffer, int bytes)
+{
+	char	*line;
+
+	free(buffer);
+	if (bytes < 0)
+	{
+		free(*store);
+		*store = NULL;
+		return (NULL);
+	}
+	if (!store || !*store || **store == '\0')
+	{
+		free(*store);
+		*store = NULL;
+		return (NULL);
+	}
+	line = *store;
+	*store = NULL;
+	return (line);
 }
