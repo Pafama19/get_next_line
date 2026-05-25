@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:06:57 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/25 23:29:00 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/26 00:02:20 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_make_line(char **store)
 	char	*new_line;
 	char	*excess;
 
-	if (!*store || !store)
+	if (!*store)
 		return (NULL);
 	new_line = ft_extract_line(*store);
 	excess = ft_get_excess(ft_strchr(*store, '\n'));

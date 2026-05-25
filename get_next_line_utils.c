@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:40:06 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/25 23:28:06 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/25 23:38:16 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*ft_error_eof(char **store, char *buffer, int bytes)
 		*store = NULL;
 		return (NULL);
 	}
-	if (!store || !*store || **store == '\0')
+	if (!*store)
 	{
 		free(*store);
 		*store = NULL;
