@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:06:57 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/26 22:45:34 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/05/27 12:03:30 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ char	*ft_extract_line(char *store)
 	len = 0;
 	if (!store || !store[0])
 		return (NULL);
-	if (store[0] == '\n')
+	if (store[0] != '\n')
 	{
-		
-		return ();
+		while (store[len] && store[len] != '\n')
+			len++;
+		line = malloc(sizeof(char) * (len + 2));
+		if (!line)
+			return (NULL);
 	}
-	while (store[len] && store[len] != '\n')
-		len++;
-	line = malloc(sizeof(char) * (len + 2));
-	if (!line)
-		return (NULL);
+	else
+		line = malloc(sizeof (char) * 2);
 	while (pos <= len)
 	{
 		line[pos] = store[pos];
