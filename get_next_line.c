@@ -6,7 +6,7 @@
 /*   By: pabfajar <pabfajar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:06:57 by pabfajar          #+#    #+#             */
-/*   Updated: 2026/05/31 13:06:08 by pabfajar         ###   ########.fr       */
+/*   Updated: 2026/06/01 11:34:10 by pabfajar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	ft_read_line(char *buffer, int fd)
 	int	bytes;
 
 	bytes = read(fd, buffer, BUFFER_SIZE);
-	if (bytes <= 0)
-		return (bytes);
 	buffer[bytes] = '\0';
 	return (bytes);
 }
