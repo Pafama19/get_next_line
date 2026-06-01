@@ -88,5 +88,20 @@ int main(int argc, char **argv)
 ```
 ### **RECURSOS**
 
-A lo largo del desarrollo de este proyecto he consultado diferentes fuentes para comprender mejor el funcionamiento de `read()`, la gestión de memoria en C y la lógica necesaria para implementar `get_next_line`. Entre ellas:
-- Documentación oficial de `read()`.
+A lo largo del desarrollo de este proyecto se han consultado diversas fuentes para comprender mejor la gestión de memoria en C y la lógica en general de `get_next_line`.
+
+**Guías y documentación técnica**
+
+- Recursos sobre gestión de memoria en C (malloc, leaks).
+- Explicaciones sobre los concepto de memoria dinámica, lectura parcial, buffer y descriptor de archivo.
+- Repositorios y guías píblicas en github para ver distintos enfoques con los que abordar el proyecto.
+
+**Otras herramientas**
+
+- Se ha hecho uso del tester paco para realizar diversas pruebas de funcionamiento del código con casos extremos.
+- Archivos propios creados con el fin de validar el correcto funcionamiento del código.
+
+**Asistencia con IA**
+
+- Consultas a la ia para localizar errores y propuesta de ejemplos de funcionamiento.
+- Genración explicaciones de conceptos y esquemas de la lógica del programa.
